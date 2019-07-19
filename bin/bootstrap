@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+rbenv install --skip-existing $(cat .ruby-version)
+nodenv install --skip-existing $(cat .node-version)
+
+CFLAGS="-I$(brew --prefix zlib)/include" \
+LDFLAGS="-L$(brew --prefix zlib)/lib" \
+pyenv install --skip-existing $(cat .python-version)
+
+if [ ! -L ~/.puma-dev/inktionary ]; then
+  echo "==> Installing inktionary in Puma-dev..."
+  ln -s $(pwd) ~/.puma-dev/inktionary
+fi
+
+brew bundle check || {
+  echo "==> Installing Homebrew dependencies..."
+  brew bundle
+  # Just in case this is your first time using Pyenv.
+  if [ -d $PYENV_SHELL ]; then
+    pyenv init || true
+    eval "$(pyenv init -)"
+  fi
+}

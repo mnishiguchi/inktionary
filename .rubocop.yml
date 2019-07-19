@@ -1,0 +1,69 @@
+inherit_from: .rubocop_todo.yml
+
+# This is the configuration used to check the rubocop source code.
+# See https://github.com/bbatsov/rubocop/blob/master/config/default.yml for options
+
+require:
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 2.5
+  DisplayCopNames: true
+  Exclude:
+    - bin/**/*
+    - coverage/**/*
+    - db/schema.rb
+    - node_modules/**/*
+    - public/**/*
+    - test/fixtures/**/*
+    - tmp/**/*
+    - vendor/**/*
+    - app.rb
+
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*.rake'
+    - 'test/**/*.rb'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'Gemfile'
+
+Style/Documentation:
+  Enabled: false
+
+Lint/UnusedBlockArgument:
+  Enabled: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Rails:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'test/**/*.rb'
+
+Style/GuardClause:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Rails/DynamicFindBy:
+  Enabled: false
+
+Rails/Output:
+  Enabled: false

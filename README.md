@@ -1,24 +1,21 @@
-# README
+# Inktionary
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Set up database
 
-Things you may want to cover:
+```shell
+# Start a dynamodb-local in a terminal for local development.
+docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb
+```
 
-* Ruby version
+```rb
+bundle exec rake db:create
+bundle exec rake db:explain
+bundle exec rake db:delete
+bundle exec rake db:seed
+```
 
-* System dependencies
+## Start development servers
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```shell
+foreman start -f Procfile.dev
+```
