@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 # Represents a word item in DynamoDB table.
-class Word < ApplicationTableItem::Base
-  include ApplicationTableItem::DynamodbOperations::Word
+class Word < ApplicationTableItem
+  include DynamodbOperations::Word
+
+  INVALID_TAGS_CHARS_REGEX = /[^a-z0-9\_\-\#]/i.freeze
 
   # == Keys ==
   attribute :item_id, :string
@@ -18,45 +20,57 @@ class Word < ApplicationTableItem::Base
   attribute :updated_at, :time
 
   # == Pre-validation ==
-  before_validation :strip_word_name
-  before_validation :strip_explanation
-  before_validation :assign_item_id
-  before_validation :assign_dictionary
-  before_validation :assign_tags
-  before_validation :assign_abcd
-  before_validation :assign_timestamps
+  before_validation :transform_word_name,
+                    :transform_explanation,
+                    :transform_vote_count,
+                    :assign_item_id,
+                    :assign_dictionary,
+                    :assign_tags,
+                    :assign_abcd,
+                    :assign_timestamps
 
   # == Validation ==
   validates :item_id, format: { with: ITEM_ID_REGEX }
   validates :user_id, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :abcd, format: { with: ABCD_REGEX }
-  validates :word_name, length: { minimum: 1, maximum: 80 }
+  validates :word_name, presence: true, length: { maximum: 80 }
   validates :dictionary, format: { with: WORD_DICTIONARY_REGEX }
-  validates :explanation, presence: true, length: { minimum: 20, maximum: 1000 }
+  validates :explanation, presence: true, length: { maximum: 1000 }
   validates :tags, format: { with: TAGS_REGEX }
   validates :vote_count, numericality: true
   validates :updated_at, presence: true
 
   def tags=(value)
+    # Format: "#tag#another" or "#"
     super(
       if value.blank?
+        # By convention, "#" means emply tag.
         "#"
       elsif value.is_a?(Array)
         value.join("#").prepend("#")
       elsif value.is_a?(String)
-        value
+        # Remove all the invalid chars from tags string.
+        value.gsub(INVALID_TAGS_CHARS_REGEX, "")
       end
     )
   end
 
+  def tag_names
+    tags.split("#").reject(&:blank?)
+  end
+
   private
 
-  def strip_word_name
+  def transform_word_name
     self.word_name = StripAttributes.strip(word_name)
   end
 
-  def strip_explanation
+  def transform_explanation
     self.explanation = StripAttributes.strip(explanation)
+  end
+
+  def transform_vote_count
+    self.vote_count ||= 0
   end
 
   def assign_word_id
@@ -83,5 +97,21 @@ class Word < ApplicationTableItem::Base
 
   def assign_tags
     self.tags = "#" if tags.blank?
+  end
+
+  class << self
+    def popular(limit = 10)
+      Word.pluck_popular_items
+          .take(limit)
+          .map { |item| Word.from_hash(item) }
+    end
+
+    def top_contributors(limit = 10)
+      Word.pluck_authors.lazy
+          .map { |item| item.fetch("user_id") }
+          .each_with_object(Hash.new(0)) { |user_id, counts| counts[user_id] += 1 }
+          .sort_by { |_user_id, count| count }.reverse
+          .take(limit)
+    end
   end
 end

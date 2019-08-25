@@ -1,0 +1,15 @@
+<% provide(:title, "Tags") %>
+<% provide(:top_left_link, link_to("<< Back", :back)) %>
+
+<h1>All Tags</h1>
+
+<ul class="list-group">
+  <% @tag_names.each do |tag_name| %>
+    <li class="list-group-item d-flex justify-content-between">
+      <%= link_to tag_path(tag_name) do %>
+        <i class="fa fa-tag"></i>
+        <%= tag_name %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

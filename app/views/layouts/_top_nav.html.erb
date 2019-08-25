@@ -1,0 +1,18 @@
+<div class="bg-white border-bottom shadow-sm fixed-top">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between">
+      <%= yield(:top_left_link).presence || active_link_to("Inktionary", root_path, active: :exact, active_disable: true) %>
+
+      <% if user_logged_in? %>
+        <span><%= current_user.id %></span>
+        <span>
+          <%= active_link_to "Log Out", session_path, method: :delete, active: :exact, active_disable: true, class: "p-2 text-dark" %>
+        </span>
+      <% else %>
+        <span>
+          <%= active_link_to "Log In", session_path, method: :post, active: :exact, active_disable: true, class: "p-2 text-dark" %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -42,7 +42,7 @@ end
 
 # Some users vote for word items
 5.times do
-  User::LikeWord.call(
+  Word::AddVote.call(
     user_id:   user_ids.sample,
     word_item: word_items.sample
   ).tap { print "." }

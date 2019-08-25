@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Represents a word vote item in DynamoDB table.
-class Vote < ApplicationTableItem::Base
-  include ApplicationTableItem::DynamodbOperations::Vote
+class Vote < ApplicationTableItem
+  include DynamodbOperations::Vote
 
   # == Keys ==
   attribute :item_id, :string

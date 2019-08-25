@@ -1,0 +1,17 @@
+<% provide(:title, @word_id) %>
+<% provide(:top_left_link, link_to("<< Back", :back)) %>
+
+<h1><%= @word_id %></h1>
+
+<%= form_with model: @word_form, url: word_path(@word_id), method: :put, local: true do |f| %>
+  <%= render "shared/error_messages", object: f.object %>
+  <%= render "fields", f: f %>
+
+  <%= f.submit "Update Word", class: "btn btn-info btn-block my-3" %>
+<% end %>
+
+<br>
+
+<section class="js-WordTagsSection">
+  <%= render "words/word_tags_section", word_id: @word_id, tag_names: @tag_names, autocomplete: @autocomplete %>
+</section>

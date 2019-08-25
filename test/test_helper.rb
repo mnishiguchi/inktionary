@@ -5,9 +5,13 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/rails"
 require "minitest/reporters"
+require "minitest/retry"
 require "mocha/minitest"
+require_relative "./support/dynamodb.rb"
 
 Minitest::Reporters.use!
+# This is useful because DynamoDB's eventual consistency can causes our test to fail.
+Minitest::Retry.use!
 
 # Consider setting MT_NO_EXPECTATIONS to not add expectations to Object.
 # ENV["MT_NO_EXPECTATIONS"] = true

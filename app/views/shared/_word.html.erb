@@ -1,0 +1,51 @@
+<div class="card mb-1 WordCard" data-word-id="<%= word.item_id %>">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="card-title">
+        <%= link_to word.word_name, word_path(word.item_id) %>
+      </h5>
+      <% if user_logged_in? %>
+        <%= link_to word_path(word.item_id), method: :delete, data: { confirm: 'Are you sure?' }, style: "color:#999", title: "Delete" do %>
+          <i class="fa fa-times"></i>
+        <% end %>
+      <% end %>
+    </div>
+
+    <p class="card-text"><%= word.explanation %></p>
+
+    <p class="card-text">
+      <% word.tag_names.each do |tag_name| %>
+        <span class="badge badge-dark mr-1">
+          <%= link_to tag_path(id: tag_name), style: "color:white" do %>
+            <i class="fa fa-tag"></i>
+            <%= tag_name %>
+          <% end %>
+        </span>
+      <% end %>
+    </p>
+
+    <p class="card-text">
+      <b><%= "Last updated by #{word.user_id} #{time_ago_in_words(word.updated_at)} ago" %></b>
+    </p>
+
+    <div class="js-UpvoteThumb UpvoteThumb d-flex" data-word-id="<%= word.item_id %>">
+      <%
+      if user_logged_in?
+        link_url = word_vote_path(word.item_id)
+        link_opts = { method: :put, remote: true, class: "btn btn-secondary btn-sm" }
+      else
+        link_url = "javascript:void(0)"
+        link_opts = { style: "pointer-events:none", class: "btn btn-secondary btn-sm disabled" }
+      end
+      %>
+
+      <%= link_to link_url, link_opts do %>
+        <i class="fa fa-thumbs-up"></i>
+        <span class="UpvoteThumb-count ml-1">
+          <%= word.vote_count %>
+        </span>
+      <% end %>
+      <small class="text-muted ml-2" style="line-height: 3;"><%= word.item_id %></small>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<%= form_with url: words_path, method: :get, local: true, html: { class: "mb-3 DictionarySearch form-inline" } do |f| %>
+  <div class="position-relative d-inline-flex" >
+    <%= f.text_field :q,
+      value: @q,
+      class: "DictionarySearch-input js-DictionarySearch-input form-control",
+      list: "DictionarySearch-autocompleteOptions",
+      placeholder: "Type a word to search"
+    %>
+
+    <datalist id="DictionarySearch-autocompleteOptions">
+      <%= options_for_select(@autocomplete) unless @autocomplete.blank? %>
+    </datalist>
+
+    <%= link_to words_path, class: "DictionarySearch-cancel" do %>
+      <i class="fa fa-times-circle"></i>
+    <% end %>
+  </div>
+
+  <button type="submit" class="js-DictionarySearch-submit btn btn-primary ml-2">
+    <i aria-hidden="true" class="fa fa-search"></i>
+  </button>
+<% end %>
+
+<div class="mb-2">
+  <%= render partial: "shared/word", collection: @words %>
+</div>
+
+<%= paginate @words %>
+
+<div class="d-flex flex-wrap">
+  <% ("A".."Z").to_a.each do |initial| %>
+    <%= active_link_to initial, words_path(q: initial.downcase), active: :exact, active_disable: true,
+      class: "btn btn-outline-secondary btn-sm mr-1 mb-1" %>
+  <% end %>
+</div>
+
+<%= link_to "Explain New Word", new_word_path %>
+<%= " | " %>
+<%= link_to "All Tags", tags_path %>

@@ -1,0 +1,11 @@
+<% provide(:title, "New Word") %>
+<% provide(:top_left_link, link_to("<< Back", :back)) %>
+
+<h1>Explain New Word</h1>
+
+<%= form_with model: @word_form, url: words_path, method: :post, local: true do |f| %>
+  <%= render "shared/error_messages", object: f.object %>
+  <%= render "fields", f: f %>
+
+  <%= f.submit "Create Word", class: "btn btn-info btn-block my-3" %>
+<% end %>

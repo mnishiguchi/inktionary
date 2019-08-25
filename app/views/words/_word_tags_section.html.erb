@@ -1,0 +1,38 @@
+<h2 class="h4">Tags</h2>
+
+<% if tag_names.blank? %>
+  <p>Currently no tag is attached to this word</p>
+<% else %>
+  <p>
+    <% tag_names.each do |tag_name| %>
+      <span class="badge badge-dark">
+        <i class="fa fa-tag"></i>
+        <%= tag_name %>
+        <% if user_logged_in? %>
+          <span style="color:#999"><%= " | " %></span>
+          <%= link_to word_tag_path(word_id: word_id, id: tag_name),
+            method: :delete,
+            data: { confirm: 'Are you sure?' },
+            remote: true,
+            title: "Delete" do %>
+            <i class="fa fa-times" style="color:white"></i>
+          <% end %>
+        <% end %>
+      </span>
+    <% end %>
+  </p>
+<% end %>
+
+<%= form_with url: word_tags_path(word_id: word_id), method: :post, local: false do |f| %>
+  <div class="d-inline-flex">
+    <%= f.text_field :tag_name,
+      list: "WordTagForm-autocompleteOptions",
+      class: "form-control",
+      style: "min-width: 30vw" %>
+    <datalist id="WordTagForm-autocompleteOptions">
+      <%= options_for_select(autocomplete) unless local_assigns[:autocomplete].nil? %>
+    </datalist>
+
+    <%= f.submit "Create Tag", class: "btn btn-info ml-1" %>
+  </div>
+<% end %>

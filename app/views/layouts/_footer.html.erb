@@ -1,0 +1,44 @@
+<footer>
+  <div class="container">
+    <div class="row" style="padding:3rem 0">
+      <div class="col-md-6 mb-4">
+        <div class="text-light h5">Popular Definitions</div>
+        <div class="list-group">
+          <% @popular_words.each do |popular_word| %>
+            <%= link_to words_path(q: popular_word.word_name), class: "list-group-item list-group-item-action" do %>
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-1">
+                  <%= popular_word.word_name %>
+                </h5>
+                <span class="badge badge-secondary badge-pill">
+                  <%= popular_word.vote_count %>
+                </span>
+              </div>
+              <small class="mb-1">
+                <%= popular_word.explanation.truncate(100) %>
+              </small>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <div class="text-light h5">Top Contributors</div>
+        <ul class="list-group">
+          <% @top_contributors.each do |user_id, contribution_count| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <h5 class="mb-1">
+                <%= user_id %>
+              </h5>
+              <span class="badge badge-secondary badge-pill">
+                <%= contribution_count %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+        <div class="mt-1">
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

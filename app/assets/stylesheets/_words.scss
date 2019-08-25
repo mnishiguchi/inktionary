@@ -1,0 +1,19 @@
+.DictionarySearch {
+  &-input {
+    min-width: 50vw;
+  }
+  &-cancel {
+    position: absolute;
+    right: 40px;
+    top: 7px;
+    color: #b3b3b3;
+  }
+}
+
+.UpvoteThumb {
+  [data-logged-in=true] & a:hover,
+  &[data-upvoted-by-current-user=true] a {
+    background-color: $success;
+    color: $black;
+  }
+}

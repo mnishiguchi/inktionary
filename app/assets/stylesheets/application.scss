@@ -1,0 +1,15 @@
+// Load custom variables before bootstrap
+@import './shared/variables';
+
+// fontawesome
+$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+
+// Third-party styles from node_modules
+@import 'bootstrap/scss/bootstrap.scss';
+@import 'izitoast/dist/css/iziToast';
+
+// Our custom styles
+@import 'layout';
+@import 'words';

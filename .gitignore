@@ -36,3 +36,6 @@ yarn-debug.log*
 .env.*
 !.env.development
 !.env.test
+
+# dynamodb-local
+/db/shared-local-instance.db

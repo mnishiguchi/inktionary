@@ -26,7 +26,7 @@ class ApplicationTable
   string_attr :word_id # "Word#2019-07-23#1000"
   string_attr :user_id # masa@example.com
 
-  epoch_time_attr :updated_at
+  integer_attr :updated_at
 
   # Global secondary indexes
   # https://docs.aws.amazon.com/awssdkrubyrecord/api/Aws/Record/SecondaryIndexes/SecondaryIndexesClassMethods.html
@@ -123,12 +123,6 @@ class ApplicationTable
       raise "Prohibitted in production" if Rails.env.production?
 
       load Rails.root.join("db", "seeds.rb").to_s
-    end
-
-    # TODO: Write the updater using "table_config.client", not AWS::Record's dynamodb_client
-    # OR get dynamodb_client working.
-    def create_item(attributes, opts)
-      new.update!(attributes, opts)
     end
   end
 end

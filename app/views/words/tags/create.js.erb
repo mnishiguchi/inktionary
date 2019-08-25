@@ -1,0 +1,3 @@
+// Refresh the Tags section of words#show view
+document.querySelector('.js-WordTagsSection').innerHTML =
+  '<%= j(render "words/word_tags_section", word_id: @word_id, tag_names: @tag_names) %>';

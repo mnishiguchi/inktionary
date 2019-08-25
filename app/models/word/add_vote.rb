@@ -2,44 +2,35 @@
 
 # Handles liking a word.
 class Word
-  class Vote
-    def self.call(*args, &block)
-      new(*args, &block).call
-    end
-
-    attr_reader :word_item, :word_id, :user_id
+  class AddVote < ApplicationCallable
+    attr_reader :word_item, :user_id
 
     def initialize(word_item:, user_id:)
       @word_item = ensure_word_item(word_item)
-      @word_id = @word_item.item_id
       @user_id = ensure_user_id(user_id)
     end
 
     def call
-      return if vote_record_already_exist?
-
-      create_vote
-      update_vote_count
+      if vote_record_already_exist?
+        Word::RemoveVote.call(word_item: word_item, user_id: user_id)
+      else
+        create_vote
+        sync_vote_count
+      end
     end
 
     private
 
     def vote_record_already_exist?
-      ::Vote.exist?(user_id: user_id, word_id: word_id)
+      ::Vote.exist?(user_id: user_id, word_id: word_item.item_id)
     end
 
     def create_vote
-      ::Vote.from_hash(word_id: word_id, user_id: user_id).save
+      ::Vote.from_hash(word_id: word_item.item_id, user_id: user_id).save
     end
 
-    def update_vote_count
-      word_item.vote_count = Vote.count(word_id: word_id)
-      word_item.validate!
-      Word.update_vote_count(
-        word_id:    word_item.item_id,
-        vote_count: word_item.vote_count,
-        dictionary: word_item.dictionary
-      )
+    def sync_vote_count
+      word_item.sync_vote_count
     end
 
     def ensure_word_item(value)

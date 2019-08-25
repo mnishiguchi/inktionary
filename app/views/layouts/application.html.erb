@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Inktionary</title>
+    <title><%= full_title yield(:title) %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track": "reload" %>
+    <%= javascript_pack_tag "application", "data-turbolinks-track": "reload" %>
+
+    <%= favicon_link_tag asset_path("favicon.png") %>
   </head>
 
-  <body>
-    <%= yield %>
-  </body>
+  <% body_data = { action: action_name.dasherize, controller: controller_path.parameterize.dasherize, "logged-in" => user_logged_in? } %>
+
+  <%= content_tag :body, data: body_data do %>
+    <%= render "layouts/top_nav" %>
+    <main class="container">
+      <%= flash_tag %>
+      <%= yield %>
+    </main>
+    <%= render "layouts/footer" %>
+
+    <div data-upvoted-word-ids="<%= @upvoted_word_ids&.join(",") %>"></div>
+    <div data-user-id="<%= @current_user&.id %>"></div>
+  <% end %>
+
+  <% if Rails.env.development? %>
+    <%= debug(params) %>
+  <% end %>
 </html>

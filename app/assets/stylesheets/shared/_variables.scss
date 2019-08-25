@@ -1,0 +1,66 @@
+// NOTE: Import custom variables before importing bootstrap.
+// NOTE: We want to share this file with multiple CSS modules.
+// https://github.com/twbs/bootstrap/blob/master/scss/_variables.scss
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #fab900 !default;
+$green: #00fa3c !default;
+$teal: #20c997 !default;
+$cyan: #00befa !default;
+
+$primary: $blue;
+$secondary: $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: $gray-100 !default;
+$dark: $gray-800 !default;
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg: $gray-200 !default;
+$body-color: $gray-900 !default;
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 960px
+) !default;
+
+// Links
+//
+// Style anchor elements.
+
+$link-color: #0041fa !default;
+$link-decoration: none !default;
+$link-hover-color: darken($link-color, 15%) !default;
+$link-hover-decoration: underline !default;
+// Darken percentage for links with `.text-*` class (e.g. `.text-success`)
+$emphasized-link-hover-darken-percentage: 15% !default;
+
+$stretched-link-pseudo-element: after !default;
+$stretched-link-z-index: 1 !default;

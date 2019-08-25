@@ -20,4 +20,11 @@ namespace :db do
   task "describe" => :environment do
     puts JSON.pretty_generate(ApplicationTable.describe_table.to_h)
   end
+
+  desc "Set up the DynamoDB table."
+  task "setup" => :environment do
+    Rake::Task["db:create"].invoke
+    Rake::Task["db:seed"].invoke
+    Rake::Task["db:describe"].invoke
+  end
 end

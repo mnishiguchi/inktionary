@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Represents a tag item in DynamoDB table.
-class Tag < ApplicationTableItem::Base
-  include ApplicationTableItem::DynamodbOperations::Tag
+class Tag < ApplicationTableItem
+  include DynamodbOperations::Tag
 
   # == Keys ==
   attribute :item_id, :string
