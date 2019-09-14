@@ -98,20 +98,4 @@ class Word < ApplicationTableItem
   def assign_tags
     self.tags = "#" if tags.blank?
   end
-
-  class << self
-    def popular(limit = 10)
-      Word.pluck_popular_items
-          .take(limit)
-          .map { |item| Word.from_hash(item) }
-    end
-
-    def top_contributors(limit = 10)
-      Word.pluck_authors.lazy
-          .map { |item| item.fetch("user_id") }
-          .each_with_object(Hash.new(0)) { |user_id, counts| counts[user_id] += 1 }
-          .sort_by { |_user_id, count| count }.reverse
-          .take(limit)
-    end
-  end
 end

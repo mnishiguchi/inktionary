@@ -35,7 +35,7 @@ module Inktionary
     config.generators do |g|
       g.orm false
       g.template_engine :erb
-      g.test_framework :minitest, spec: true, fixture: true
+      g.test_framework :minitest, spec: false, fixture: true
       g.stylesheets false
       g.helper false
       g.jbuilder false

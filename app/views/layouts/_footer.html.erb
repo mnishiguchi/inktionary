@@ -5,17 +5,17 @@
         <div class="text-light h5">Popular Definitions</div>
         <div class="list-group">
           <% @popular_words.each do |popular_word| %>
-            <%= link_to words_path(q: popular_word.word_name), class: "list-group-item list-group-item-action" do %>
+            <%= link_to words_path(q: popular_word.fetch("word_name")), class: "list-group-item list-group-item-action" do %>
               <div class="d-flex justify-content-between align-items-center">
                 <h5 class="mb-1">
-                  <%= popular_word.word_name %>
+                  <%= popular_word.fetch("word_name") %>
                 </h5>
                 <span class="badge badge-secondary badge-pill">
-                  <%= popular_word.vote_count %>
+                  <%= popular_word.fetch("vote_count") %>
                 </span>
               </div>
               <small class="mb-1">
-                <%= popular_word.explanation.truncate(100) %>
+                <%= popular_word.fetch("explanation").truncate(100) %>
               </small>
             <% end %>
           <% end %>

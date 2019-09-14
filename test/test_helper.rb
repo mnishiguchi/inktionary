@@ -8,6 +8,7 @@ require "minitest/reporters"
 require "minitest/retry"
 require "mocha/minitest"
 require_relative "./support/dynamodb.rb"
+require_relative "./support/vcr.rb"
 
 Minitest::Reporters.use!
 # This is useful because DynamoDB's eventual consistency can causes our test to fail.

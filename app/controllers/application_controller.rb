@@ -23,10 +23,10 @@ class ApplicationController < ActionController::Base
   end
 
   def popular_words
-    @popular_words ||= Word.popular(6)
+    @popular_words ||= DictionarySearch.popular_words(6)
   end
 
   def top_contributors
-    @top_contributors ||= Word.top_contributors(10)
+    @top_contributors ||= DictionarySearch.top_contributors(10)
   end
 end

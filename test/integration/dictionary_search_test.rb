@@ -13,7 +13,8 @@ class DictionarySearchTest < ActiveSupport::TestCase
 
       result = DictionarySearch.by_term("a")
 
-      assert_equal Word, result.first.class
+      assert_equal Array, result.class
+      assert_equal Hash, result.first.class
     end
   end
 

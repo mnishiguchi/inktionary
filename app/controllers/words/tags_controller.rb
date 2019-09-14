@@ -8,7 +8,7 @@ module Words
       @word_id = params.fetch(:word_id)
       @tag_name = params.fetch(:tag_name)
       Word::AddTag.call(word_item: @word_id, tag_name: @tag_name)
-      @tag_names = find_tag_names
+      @tag_names = DictionarySearch.word_tag_names(@word_id)
 
       respond_to do |format|
         format.js
@@ -20,18 +20,11 @@ module Words
       @word_id = params.fetch(:word_id)
       @tag_name = params.fetch(:id)
       Word::RemoveTag.call(word_item: @word_id, tag_name: @tag_name)
-      @tag_names = find_tag_names
+      @tag_names = DictionarySearch.word_tag_names(@word_id)
 
       respond_to do |format|
         format.js
       end
-    end
-
-    private
-
-    def find_tag_names
-      word_item = Word.find(item_id: @word_id).items.first
-      word_item.fetch("tags").split("#").reject(&:blank?)
     end
   end
 end

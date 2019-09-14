@@ -10,7 +10,7 @@ class WordsController < ApplicationController
   # GET /words?q=WIP&tag=tech
   def index
     @q = params[:q]
-    @words = ::DictionarySearch.by_term(@q).yield_self do |w|
+    @words = ::DictionarySearch.by_term(@q).map { |item| Word.from_hash(item) }.yield_self do |w|
       Kaminari.paginate_array(w).page(params[:page]).per(PER_PAGE)
     end
     @autocomplete = ::DictionarySearch.word_names

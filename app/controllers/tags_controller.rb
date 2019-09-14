@@ -12,7 +12,7 @@ class TagsController < ApplicationController
   # GET /tags/:id
   def show
     @tag_name = params.fetch(:id)
-    @words = ::DictionarySearch.by_tag_name(@tag_name).yield_self do |w|
+    @words = ::DictionarySearch.by_tag_name(@tag_name).map { |item| Word.from_hash(item) }.yield_self do |w|
       Kaminari.paginate_array(w).page(params[:page]).per(PER_PAGE)
     end
   end
